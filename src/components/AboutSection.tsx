@@ -101,19 +101,19 @@ export function AboutSection() {
               initial={{ opacity: 0, y: 15 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="absolute -bottom-4 right-4 sm:-bottom-6 sm:-right-4 lg:-bottom-6 lg:-right-6 bg-card border border-border p-3 sm:p-4 rounded-xl shadow-xl z-10"
+              className="absolute -bottom-4 right-4 sm:-bottom-6 sm:-right-4 lg:-bottom-6 lg:-right-6 bg-card/95 backdrop-blur-md border border-border/50 p-4 sm:p-5 rounded-2xl shadow-2xl z-10 hover:shadow-[0_0_30px_hsl(var(--accent)/0.2)] transition-all duration-300"
             >
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
                   <img 
                     src={logoNetto} 
                     alt="Logo Netto" 
-                    className="w-full h-full object-contain p-1"
+                    className="w-full h-full object-contain"
                   />
                 </div>
                 <div>
-                  <p className="font-heading font-bold text-xs sm:text-sm">Netto Barbearia</p>
-                  <p className="text-muted-foreground text-[10px] sm:text-xs">Tradição & Modernidade</p>
+                  <p className="font-heading font-bold text-sm sm:text-base text-foreground">Netto Barbearia</p>
+                  <p className="text-muted-foreground text-xs sm:text-sm">Tradição & Modernidade</p>
                 </div>
               </div>
             </motion.div>

@@ -67,7 +67,7 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-sm text-muted-foreground">
                 <Clock className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                <span>Seg - Sáb: 9h às 20h</span>
+              <span>Seg - Sáb: 9h às 20h</span>
               </li>
               <li className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
@@ -100,7 +100,7 @@ export function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-xs text-muted-foreground text-center md:text-left">
               © {currentYear} Netto Barbearia. Todos os direitos reservados.
-            </p>
+          </p>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span>Desenvolvido por</span>
               <a

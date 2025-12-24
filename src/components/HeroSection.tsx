@@ -2,26 +2,87 @@ import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ContainerTextFlip } from '@/components/ui/container-text-flip';
+import { useState, useRef, useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import heroVideo from '@/assets/video.MOV';
+import barberWork from '@/assets/barber-work.jpg';
 
 const BOOKING_URL = 'https://sites.appbarber.com.br/nettobarbearia-2myy';
 
 const flipWords = ["ESTILO.", "CORTE.", "VISUAL."];
 
 export function HeroSection() {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleLoadedData = () => {
+      setVideoLoaded(true);
+    };
+
+    const handleError = () => {
+      setVideoError(true);
+      setVideoLoaded(false);
+    };
+
+    const handleCanPlay = () => {
+      // Tenta reproduzir quando o vídeo estiver pronto
+      video.play().catch(() => {
+        setVideoError(true);
+      });
+    };
+
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('error', handleError);
+    video.addEventListener('canplay', handleCanPlay);
+
+    return () => {
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('error', handleError);
+      video.removeEventListener('canplay', handleCanPlay);
+    };
+  }, []);
+
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Video */}
+      {/* Background Video/Image */}
       <div className="absolute inset-0">
-        <video
-          src={heroVideo}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover object-center"
-          style={{ minWidth: '100%', minHeight: '100%', width: '100%', height: '100%' }}
-        />
+        {/* Fallback Image - sempre visível enquanto carrega */}
+        <div 
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            videoLoaded ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
+          <img
+            src={barberWork}
+            alt="Netto Barbearia"
+            className="w-full h-full object-cover object-center"
+            loading="eager"
+          />
+        </div>
+
+        {/* Video - otimizado para mobile e desktop */}
+        {!videoError && (
+          <video
+            ref={videoRef}
+            src={heroVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload={isMobile ? "none" : "metadata"}
+            className={`w-full h-full object-cover object-center transition-opacity duration-1000 ${
+              videoLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{ minWidth: '100%', minHeight: '100%', width: '100%', height: '100%' }}
+          />
+        )}
+
         {/* Overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/60 to-background/80" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-background/70" />
@@ -48,7 +109,7 @@ export function HeroSection() {
           className="heading-xl mb-4 md:mb-6"
         >
           <div className="flex flex-col items-center gap-2 md:flex-row md:justify-center md:gap-4">
-            <span className="block">SEU MELHOR</span>
+          <span className="block">SEU MELHOR</span>
             <ContainerTextFlip 
               words={flipWords} 
               interval={2500}
@@ -98,10 +159,9 @@ export function HeroSection() {
           href="#servicos"
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+          className="flex items-center text-muted-foreground hover:text-foreground transition-colors"
         >
-          <span className="text-xs font-heading uppercase tracking-widest">Scroll</span>
-          <ChevronDown className="h-4 w-4" />
+          <ChevronDown className="h-5 w-5" />
         </motion.a>
       </motion.div>
 

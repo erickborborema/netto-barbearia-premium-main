@@ -27,8 +27,8 @@
     --muted: 220 10% 15%;
     --muted-foreground: 220 10% 60%;
 
-    /* Red accent for CTAs */
-    --accent: 0 72% 51%;
+    /* Blue-gray accent for CTAs */
+    --accent: 210 25% 52%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -42,7 +42,7 @@
 
     /* Custom colors */
     --barber-blue: 217 91% 60%;
-    --barber-red: 0 72% 51%;
+    --barber-blue-gray: 210 25% 52%;
     --barber-dark: 0 0% 5%;
     --barber-gray: 220 10% 15%;
     --barber-light-gray: 220 10% 25%;
@@ -50,11 +50,11 @@
     /* Gradients */
     --gradient-hero: linear-gradient(180deg, transparent 0%, hsl(0 0% 5% / 0.8) 100%);
     --gradient-card: linear-gradient(135deg, hsl(220 13% 10%) 0%, hsl(220 13% 6%) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(0 72% 51%) 0%, hsl(0 72% 40%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(210 25% 52%) 0%, hsl(210 25% 42%) 100%);
     --gradient-blue: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(217 91% 45%) 100%);
 
     /* Shadows */
-    --shadow-glow-red: 0 0 40px hsl(0 72% 51% / 0.4);
+    --shadow-glow-blue-gray: 0 0 40px hsl(210 25% 52% / 0.4);
     --shadow-glow-blue: 0 0 40px hsl(217 91% 60% / 0.3);
     --shadow-card: 0 25px 50px -12px hsl(0 0% 0% / 0.5);
 
@@ -85,7 +85,7 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 220 10% 15%;
     --muted-foreground: 220 10% 60%;
-    --accent: 0 72% 51%;
+    --accent: 210 25% 52%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -283,10 +283,10 @@
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px hsl(0 72% 51% / 0.4);
+    box-shadow: 0 0 20px hsl(210 25% 52% / 0.4);
   }
   50% {
-    box-shadow: 0 0 40px hsl(0 72% 51% / 0.6);
+    box-shadow: 0 0 40px hsl(210 25% 52% / 0.6);
   }
 }
 

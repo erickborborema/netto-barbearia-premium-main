@@ -53,7 +53,7 @@ export default {
         },
         barber: {
           blue: "hsl(var(--barber-blue))",
-          red: "hsl(var(--barber-red))",
+          "blue-gray": "hsl(var(--barber-blue-gray))",
           dark: "hsl(var(--barber-dark))",
           gray: "hsl(var(--barber-gray))",
           "light-gray": "hsl(var(--barber-light-gray))",

@@ -1,12 +1,55 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Check, Crown, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LensCard } from '@/components/ui/LensCard';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const BOOKING_URL = 'https://sites.appbarber.com.br/nettobarbearia-2myy';
+
+function AnimatedPrice({ 
+  priceString, 
+  isInView 
+}: { 
+  priceString: string; 
+  isInView: boolean;
+}) {
+  const [displayValue, setDisplayValue] = useState(0);
+  const duration = 1500; // 1.5 segundos
+  const steps = 60; // 60 frames
+
+  // Converte "109,90" para número (109.90)
+  const numericValue = parseFloat(priceString.replace(',', '.'));
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const increment = numericValue / steps;
+    const stepDuration = duration / steps;
+    let currentStep = 0;
+
+    const timer = setInterval(() => {
+      currentStep++;
+      const nextValue = Math.min(increment * currentStep, numericValue);
+      setDisplayValue(nextValue);
+
+      if (currentStep >= steps) {
+        setDisplayValue(numericValue);
+        clearInterval(timer);
+      }
+    }, stepDuration);
+
+    return () => clearInterval(timer);
+  }, [isInView, numericValue]);
+
+  // Formata de volta para "109,90"
+  const formatPrice = (num: number) => {
+    return num.toFixed(2).replace('.', ',');
+  };
+
+  return <span>{formatPrice(displayValue)}</span>;
+}
 
 const plans = [
   {
@@ -42,7 +85,7 @@ const plans = [
   },
 ];
 
-function PlanCardContent({ plan }: { plan: typeof plans[0] }) {
+function PlanCardContent({ plan, isInView }: { plan: typeof plans[0]; isInView: boolean }) {
   const Icon = plan.icon;
   
   return (
@@ -56,9 +99,33 @@ function PlanCardContent({ plan }: { plan: typeof plans[0] }) {
 
       {/* Title & Price */}
       <h3 className="font-heading text-xl font-bold mb-2 text-center">{plan.name}</h3>
-      <div className="flex items-baseline gap-1 mb-3 justify-center">
+      <div className="flex items-baseline gap-1 mb-3 justify-center relative">
         <span className="text-muted-foreground text-sm">R$</span>
-        <span className="font-heading text-4xl font-bold">{plan.price}</span>
+        {plan.popular ? (
+          <motion.span 
+            className="font-heading text-4xl font-bold relative"
+            animate={{
+              filter: [
+                'drop-shadow(0 0 8px hsl(var(--accent)/0.5))',
+                'drop-shadow(0 0 12px hsl(var(--accent)/0.7))',
+                'drop-shadow(0 0 8px hsl(var(--accent)/0.5))',
+              ],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          >
+            <span className="bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent">
+              <AnimatedPrice priceString={plan.price} isInView={isInView} />
+            </span>
+          </motion.span>
+        ) : (
+          <span className="font-heading text-4xl font-bold">
+            <AnimatedPrice priceString={plan.price} isInView={isInView} />
+          </span>
+        )}
         <span className="text-muted-foreground text-sm">{plan.period}</span>
       </div>
       <p className="text-sm text-muted-foreground mb-6 text-center">{plan.description}</p>
@@ -120,11 +187,11 @@ function PlanCard({ plan, index }: { plan: typeof plans[0]; index: number }) {
       
       {!isMobile ? (
         <LensCard className={cardClasses}>
-          <PlanCardContent plan={plan} />
+          <PlanCardContent plan={plan} isInView={isInView} />
         </LensCard>
       ) : (
         <div className={cardClasses}>
-          <PlanCardContent plan={plan} />
+          <PlanCardContent plan={plan} isInView={isInView} />
         </div>
       )}
     </motion.div>
